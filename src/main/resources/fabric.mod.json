@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "velox-server-connect",
+	"version": "${version}",
+	"name": "Velox Server Connect",
+	"description": "A mod to connect to Velox servers",
+	"authors": [
+		"Webbo"
+	],
+	"contact": {
+		"homepage": "http://legion-networks.com/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/velox-server-connect/velox_launcher_icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"velox.server_connect.Veloxserverconnect"
+		]
+	},
+	"mixins": [
+		"velox-server-connect.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
