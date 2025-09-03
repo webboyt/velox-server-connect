@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.network.MultiplayerServerListPinger;
 import net.minecraft.client.network.ServerAddress;
@@ -19,6 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public abstract class TitleScreenMixin extends Screen {
         int width = 200;
         int height = 20;
         int x = (this.width - width) / 2;
-        int y = this.height / 4 + 93; // adjust vertical position
+        int y = this.height / 4 + 69; // adjust vertical position
 
         // Server info
         final MinecraftClient client = MinecraftClient.getInstance();
@@ -97,25 +99,25 @@ public abstract class TitleScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void removeRealmsButton(CallbackInfo info) {
-        List<ButtonWidget> toRemove = new ArrayList<>();
-
         for (Element element : this.children()) {
             if (element instanceof ButtonWidget button) {
-                String buttonText = button.getMessage().getString().toLowerCase();
 
-                if (buttonText.contains("realms")) {
-                    toRemove.add(button);
+                String realmsText = Text.translatable("menu.online").getString();
+                if (button.getMessage().getString().equalsIgnoreCase(realmsText)) {
+                    button.visible = false;
+                    button.active = false;
                 }
 
-                if (buttonText.contains("singleplayer") || buttonText.contains("multiplayer"))
+                String singleplayerText = Text.translatable("menu.singleplayer").getString();
+                String multiplayerText = Text.translatable("menu.multiplayer").getString();
+                String modsText = Text.translatable("menu.modded").getString();
+                if (button.getMessage().getString().equalsIgnoreCase(singleplayerText) ||
+                        button.getMessage().getString().equalsIgnoreCase(multiplayerText) ||
+                        button.getMessage().getString().equalsIgnoreCase(modsText))
                 {
                     button.setY(button.getY() + 24);
                 }
             }
-        }
-
-        for (ButtonWidget button : toRemove) {
-            this.remove(button); // Safe removal after iteration
         }
     }
 }
