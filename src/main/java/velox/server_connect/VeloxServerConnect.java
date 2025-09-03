@@ -5,7 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Veloxserverconnect implements ModInitializer {
+public class VeloxServerConnect implements ModInitializer {
 	public static final String MOD_ID = "velox-server-connect";
 
 	// This logger is used to write text to the console and the log file.
