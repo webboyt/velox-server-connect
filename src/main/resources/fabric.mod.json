@@ -1,11 +1,12 @@
 {
 	"schemaVersion": 1,
 	"id": "velox-server-connect",
-	"version": "${version}",
+	"version": "1.1.0",
 	"name": "Velox Server Connect",
-	"description": "A mod to connect to Velox servers",
+	"description": "A mod to connect to official Velox servers",
 	"authors": [
-		"Webbo"
+		"Webbo",
+        "SimpsonGames"
 	],
 	"contact": {
 		"homepage": "http://legion-networks.com/",
@@ -16,7 +17,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"velox.server_connect.Veloxserverconnect"
+			"velox.server_connect.VeloxServerConnect"
 		]
 	},
 	"mixins": [
