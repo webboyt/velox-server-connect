@@ -23,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +44,7 @@ public abstract class TitleScreenMixin extends Screen {
         int width = 200;
         int height = 20;
         int x = (this.width - width) / 2;
-        int y = this.height / 4 + 69; // adjust vertical position
+        int y = this.height / 4 + 24; // adjust vertical position
 
         // Server info
         final MinecraftClient client = MinecraftClient.getInstance();
@@ -61,7 +62,7 @@ public abstract class TitleScreenMixin extends Screen {
         final ButtonWidget serverButton = ButtonWidget.builder(Text.of("Pinging..."), button -> {
                     ConnectScreen.connect(this, client, address, data,true,null);
                 })
-                .dimensions(x, y -45, width, height)
+                .dimensions(x, y, width, height)
                 .build();
 
         this.addDrawableChild(serverButton);
@@ -73,8 +74,14 @@ public abstract class TitleScreenMixin extends Screen {
                 if (isOnline) {
                     String playersText = data.playerCountLabel != null ? data.playerCountLabel.getString() : "?/?";
 
-                    serverButton.setMessage(Text.literal(defaultMessage));
-                    serverButton.setTooltip(Tooltip.of(Text.literal("[Status - ").append(Text.literal("Online").formatted(Formatting.GREEN)).append(Text.literal(" | " + playersText + "]"))));
+                    serverButton.setMessage(Text.literal("Connect to ")
+                            .append(Text.literal("Velox ").formatted(Formatting.DARK_PURPLE))
+                            .append(Text.literal("Cobble").formatted(Formatting.RED))
+                            .append(Text.literal("mon ").formatted(Formatting.WHITE))
+                            .append(Text.literal("Server").formatted(Formatting.LIGHT_PURPLE)));
+                    serverButton.setTooltip(Tooltip.of(Text.literal("[Status - ")
+                                                        .append(Text.literal("Online").formatted(Formatting.GREEN))
+                                                        .append(Text.literal(" | " + playersText + "]"))));
                 } else
                 {
                     serverButton.setMessage(Text.literal(serverName  + " - ").append(Text.literal("Offline").formatted(Formatting.RED)));
@@ -110,15 +117,25 @@ public abstract class TitleScreenMixin extends Screen {
 
                 String singleplayerText = Text.translatable("menu.singleplayer").getString();
                 String multiplayerText = Text.translatable("menu.multiplayer").getString();
-                String modsText = Text.translatable("menu.modded").getString();
-                if (button.getMessage().getString().equalsIgnoreCase(singleplayerText) ||
-                        button.getMessage().getString().equalsIgnoreCase(multiplayerText) ||
-                        button.getMessage().getString().equalsIgnoreCase(modsText))
+                if (button.getMessage().getString().equalsIgnoreCase(singleplayerText) || button.getMessage().getString().equalsIgnoreCase(multiplayerText))
                 {
                     button.setY(button.getY() + 24);
                 }
             }
         }
+    }
+
+    @Unique
+    private ButtonWidget getButton(String key)
+    {
+        for (Element element : this.children()) {
+            if (element instanceof ButtonWidget button) {
+                if (button.getMessage().getString().equalsIgnoreCase(key)) {
+                    return button;
+                }
+            }
+        }
+        return null;
     }
 }
 
