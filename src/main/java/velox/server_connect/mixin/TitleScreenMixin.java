@@ -27,6 +27,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 @Mixin(TitleScreen.class)
 public abstract class TitleScreenMixin extends Screen {
@@ -38,13 +39,26 @@ public abstract class TitleScreenMixin extends Screen {
     @Unique
     private final MultiplayerServerListPinger pinger = new MultiplayerServerListPinger();
 
+    @Unique
+    private ButtonWidget serverButton = null;
+
     @Inject(method = "init", at = @At("TAIL"))
     private void addPrivateServerButton(CallbackInfo info) {
+
+        removeRealmsButton();
+
         // Coordinates and size for the button
         int width = 200;
         int height = 20;
         int x = (this.width - width) / 2;
-        int y = this.height / 4 + 24; // adjust vertical position
+
+        int topButtonY = -1;
+        ButtonWidget topButton = getButton("singleplayer");
+        if (topButton != null) { topButtonY = topButton.getY(); }
+        if (topButtonY == -1) { topButtonY = this.height / 4 + 24; }
+        int y = topButtonY - 48;
+
+        //int y = this.height / 4 + 24; // adjust vertical position
 
         // Server info
         final MinecraftClient client = MinecraftClient.getInstance();
@@ -59,7 +73,7 @@ public abstract class TitleScreenMixin extends Screen {
         final String defaultMessage = "Connect to " + serverName;
 
         // Server button
-        final ButtonWidget serverButton = ButtonWidget.builder(Text.of("Pinging..."), button -> {
+        serverButton = ButtonWidget.builder(Text.of("Pinging..."), button -> {
                     ConnectScreen.connect(this, client, address, data,true,null);
                 })
                 .dimensions(x, y, width, height)
@@ -104,8 +118,9 @@ public abstract class TitleScreenMixin extends Screen {
         this.pinger.cancel();
     }
 
-    @Inject(method = "init", at = @At("TAIL"))
-    private void removeRealmsButton(CallbackInfo info) {
+    //@Inject(method = "init", at = @At("TAIL"))
+    @Unique
+    private void removeRealmsButton() {
         for (Element element : this.children()) {
             if (element instanceof ButtonWidget button) {
 
@@ -130,11 +145,13 @@ public abstract class TitleScreenMixin extends Screen {
     {
         for (Element element : this.children()) {
             if (element instanceof ButtonWidget button) {
-                if (button.getMessage().getString().equalsIgnoreCase(key)) {
+                if (button.getMessage().getString().toLowerCase(Locale.ROOT).equals(key)) {
+                    System.out.println("Found button " + key);
                     return button;
                 }
             }
         }
+        System.out.println("Didn't find button " + key);
         return null;
     }
 }
