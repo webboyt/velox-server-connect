@@ -1,8 +1,11 @@
 {
     "title.velox-server-connect.config": "Velox Server Connect Config",
+    "category.velox-server-connect.serverInfo": "Server Info",
     "category.velox-server-connect.mainButton": "Connect Button",
     "category.velox-server-connect.tooltip": "Tooltip",
     "category.velox-server-connect.other": "Misc.",
+    "field.velox-server-connect.server_ip": "Server IP Address",
+    "field.velox-server-connect.server_port": "Server Port",
     "field.velox-server-connect.modpack_name": "Modpack Name",
     "field.velox-server-connect.y_offset": "Y Offset",
     "field.velox-server-connect.show_tooltip": "Show Tooltip",

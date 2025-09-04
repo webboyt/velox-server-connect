@@ -17,6 +17,22 @@ public class ModConfigScreen {
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
         final var config = ModConfig.INSTANCE;
 
+        // region Server Info
+
+        ConfigCategory serverInfo = builder.getOrCreateCategory(Text.translatable("category.velox-server-connect.serverInfo"));
+
+        serverInfo.addEntry(entryBuilder.startTextField(Text.translatable("field.velox-server-connect.server_ip"), config.serverIp)
+                .setDefaultValue("mc.legion-networks.com")
+                .setSaveConsumer(newValue -> config.serverIp = newValue)
+                .build());
+
+        serverInfo.addEntry(entryBuilder.startIntField(Text.translatable("field.velox-server-connect.server_port"), config.serverPort)
+                .setDefaultValue(25565)
+                .setSaveConsumer(newValue -> config.serverPort = newValue)
+                .build());
+
+        // endregion
+
         // region Main Button
 
         ConfigCategory mainButton = builder.getOrCreateCategory(Text.translatable("category.velox-server-connect.mainButton"));

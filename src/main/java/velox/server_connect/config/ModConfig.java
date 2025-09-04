@@ -10,6 +10,10 @@ import java.nio.file.Path;
 
 public class ModConfig {
 
+    // Server Info
+    public String serverIp = "mc.legion-networks.com";
+    public int serverPort = 25565;
+
     // Button
     public String modpackName = "";
     public int buttonYOffset = 1;

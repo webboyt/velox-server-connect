@@ -38,7 +38,7 @@ public abstract class TitleScreenMixin extends Screen {
     private ButtonWidget serverButton = null;
 
     @Unique
-    private ModConfig config = ModConfig.INSTANCE;
+    private final ModConfig config = ModConfig.INSTANCE;
 
     @Inject(method = "init", at = @At("TAIL"))
     private void addPrivateServerButton(CallbackInfo info) {
@@ -62,8 +62,8 @@ public abstract class TitleScreenMixin extends Screen {
         }
 
         final String serverName = "Velox " + packName + "Server";
-        final String ip = "mc.legion-networks.com";
-        final int port = 25565;
+        final String ip = config.serverIp;
+        final int port = config.serverPort;
 
         final ServerInfo data = new ServerInfo(serverName ,ip + ":" + port, ServerInfo.ServerType.OTHER);
         final ServerAddress address = new ServerAddress(ip, port);
