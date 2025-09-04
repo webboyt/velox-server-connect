@@ -11,15 +11,18 @@ import java.nio.file.Path;
 public class ModConfig {
 
     // Server Info
+    public String serverName = "Velox $m Server";
     public String serverIp = "mc.legion-networks.com";
     public int serverPort = 25565;
 
     // Button
+    public String buttonText = "Connect to $s";
     public String modpackName = "";
     public int buttonYOffset = 1;
 
     // Tooltip
     public boolean showTooltip = true;
+    public boolean showServerName = false;
     public boolean showOnlineStatus = true;
     public boolean showPing = false;
     public boolean showPlayers = true;

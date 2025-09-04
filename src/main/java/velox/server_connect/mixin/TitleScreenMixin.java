@@ -55,20 +55,14 @@ public abstract class TitleScreenMixin extends Screen {
         // Server info
         final MinecraftClient client = MinecraftClient.getInstance();
 
-        String packName = "";
-        if (!Objects.equals(config.modpackName, ""))
-        {
-            packName = config.modpackName + " ";
-        }
-
-        final String serverName = "Velox " + packName + "Server";
+        String serverName = config.serverName.replace("$m", config.modpackName).replaceAll("\\s{2,}", " ").trim();
         final String ip = config.serverIp;
         final int port = config.serverPort;
 
         final ServerInfo data = new ServerInfo(serverName ,ip + ":" + port, ServerInfo.ServerType.OTHER);
         final ServerAddress address = new ServerAddress(ip, port);
 
-        final String defaultMessage = "Connect to " + serverName;
+        String defaultMessage = config.buttonText.replace("$m", config.modpackName).replace("$s", serverName).replaceAll("\\s{2,}", " ").trim();
 
         // Server button
         serverButton = ButtonWidget.builder(Text.of("Pinging..."), button -> {
@@ -90,12 +84,12 @@ public abstract class TitleScreenMixin extends Screen {
                     serverButton.setMessage(Text.literal(defaultMessage));
 
                     if (config.showTooltip)
-                        serverButton.setTooltip(Tooltip.of(setTooltipText(true, pingText, playersText)));
+                        serverButton.setTooltip(Tooltip.of(setTooltipText(true, serverName, pingText, playersText)));
                 } else
                 {
                     serverButton.setMessage(Text.literal(serverName  + " - ").append(Text.literal("Offline").formatted(Formatting.RED)));
                     if (config.showTooltip)
-                        serverButton.setTooltip(Tooltip.of(setTooltipText(false, "", "")));
+                        serverButton.setTooltip(Tooltip.of(setTooltipText(false, serverName, "", "")));
                 }
             });
         } catch (Exception e) {
@@ -139,8 +133,9 @@ public abstract class TitleScreenMixin extends Screen {
     }
 
     @Unique
-    private Text setTooltipText(boolean isOnline, String pingText, String playersText) {
+    private Text setTooltipText(boolean isOnline, String serverName, String pingText, String playersText) {
 
+        String serverNameString = config.showServerName ? serverName + "\n" : "";
         String tooltipString = "[";
         String dividerString = " | ";
         String statusString = config.showOnlineStatus ? "Status - " : "";
@@ -150,7 +145,7 @@ public abstract class TitleScreenMixin extends Screen {
         String playersString = config.showPlayers ? (config.showOnlineStatus && isOnline || config.showPing && isOnline ? dividerString + playersText : playersText) : "";
         String endString = "]";
 
-        MutableText tooltipText = Text.literal(tooltipString).append(Text.literal(statusString));
+        MutableText tooltipText = Text.literal(serverNameString).append(Text.literal(tooltipString)).append(Text.literal(statusString));
         MutableText onlineText = Text.literal(onlineString).formatted(isOnline ? Formatting.GREEN : Formatting.RED);
         MutableText remainingText = Text.literal(pingString).append(playersString).append(endString);
 
