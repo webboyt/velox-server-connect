@@ -18,7 +18,10 @@
 	"entrypoints": {
 		"main": [
 			"velox.server_connect.VeloxServerConnect"
-		]
+		],
+        "modmenu": [
+            "velox.server_connect.config.ModMenuIntegration"
+        ]
 	},
 	"mixins": [
 		"velox-server-connect.mixins.json"
@@ -27,7 +30,9 @@
 		"fabricloader": ">=0.16.14",
 		"minecraft": "~1.21.1",
 		"java": ">=21",
-		"fabric-api": "*"
+		"fabric-api": "*",
+        "cloth-config": ">=15.0.140",
+        "modmenu": ">=11.0.3"
 	},
 	"suggests": {
 		"another-mod": "*"

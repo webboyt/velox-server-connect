@@ -1,0 +1,13 @@
+{
+    "title.velox-server-connect.config": "Velox Server Connect Config",
+    "category.velox-server-connect.mainButton": "Connect Button",
+    "category.velox-server-connect.tooltip": "Tooltip",
+    "category.velox-server-connect.other": "Misc.",
+    "field.velox-server-connect.modpack_name": "Modpack Name",
+    "field.velox-server-connect.y_offset": "Y Offset",
+    "field.velox-server-connect.show_tooltip": "Show Tooltip",
+    "field.velox-server-connect.show_online_status": "Show Online Status",
+    "field.velox-server-connect.show_ping": "Show Ping",
+    "field.velox-server-connect.show_players": "Show Players",
+    "field.velox-server-connect.show_realms_button": "Show Realms Button"
+}

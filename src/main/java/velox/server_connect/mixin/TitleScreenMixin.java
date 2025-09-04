@@ -1,15 +1,12 @@
 package velox.server_connect.mixin;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.network.MultiplayerServerListPinger;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
@@ -20,14 +17,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import velox.server_connect.config.ModConfig;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 @Mixin(TitleScreen.class)
 public abstract class TitleScreenMixin extends Screen {
@@ -63,7 +58,13 @@ public abstract class TitleScreenMixin extends Screen {
         // Server info
         final MinecraftClient client = MinecraftClient.getInstance();
 
-        final String serverName = "Velox Cobblemon Server";
+        String packName = "";
+        if (!Objects.equals(ModConfig.modpackName, ""))
+        {
+            packName = ModConfig.modpackName + " ";
+        }
+
+        final String serverName = "Velox " + packName + "Server";
         final String ip = "mc.legion-networks.com";
         final int port = 25565;
 
@@ -88,11 +89,7 @@ public abstract class TitleScreenMixin extends Screen {
                 if (isOnline) {
                     String playersText = data.playerCountLabel != null ? data.playerCountLabel.getString() : "?/?";
 
-                    serverButton.setMessage(Text.literal("Connect to ")
-                            .append(Text.literal("Velox ").formatted(Formatting.DARK_PURPLE))
-                            .append(Text.literal("Cobble").formatted(Formatting.RED))
-                            .append(Text.literal("mon ").formatted(Formatting.WHITE))
-                            .append(Text.literal("Server").formatted(Formatting.LIGHT_PURPLE)));
+                    serverButton.setMessage(Text.literal(defaultMessage));
                     serverButton.setTooltip(Tooltip.of(Text.literal("[Status - ")
                                                         .append(Text.literal("Online").formatted(Formatting.GREEN))
                                                         .append(Text.literal(" | " + playersText + "]"))));
