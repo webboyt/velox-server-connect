@@ -9,5 +9,5 @@
     "field.velox-server-connect.show_online_status": "Show Online Status",
     "field.velox-server-connect.show_ping": "Show Ping",
     "field.velox-server-connect.show_players": "Show Players",
-    "field.velox-server-connect.show_realms_button": "Show Realms Button"
+    "field.velox-server-connect.hide_realms_button": "Hide Realms Button"
 }

@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import velox.server_connect.config.ModConfig;
 
 public class VeloxServerConnect implements ModInitializer {
 	public static final String MOD_ID = "velox-server-connect";
@@ -18,6 +19,8 @@ public class VeloxServerConnect implements ModInitializer {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
+
+        ModConfig.load();
 
 		LOGGER.info("Velox Server Connect Loaded Successfully!");
 	}

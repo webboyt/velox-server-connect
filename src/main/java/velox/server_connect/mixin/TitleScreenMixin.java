@@ -11,6 +11,7 @@ import net.minecraft.client.network.MultiplayerServerListPinger;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
 import net.minecraft.client.network.ServerInfo;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,6 +38,9 @@ public abstract class TitleScreenMixin extends Screen {
     @Unique
     private ButtonWidget serverButton = null;
 
+    @Unique
+    private ModConfig config = ModConfig.INSTANCE;
+
     @Inject(method = "init", at = @At("TAIL"))
     private void addPrivateServerButton(CallbackInfo info) {
 
@@ -47,21 +51,21 @@ public abstract class TitleScreenMixin extends Screen {
         int height = 20;
         int x = (this.width - width) / 2;
 
-        int topButtonY = -1;
-        ButtonWidget topButton = getButton("singleplayer");
-        if (topButton != null) { topButtonY = topButton.getY(); }
-        if (topButtonY == -1) { topButtonY = this.height / 4 + 24; }
-        int y = topButtonY - 48;
+//        int topButtonY = -1;
+//        ButtonWidget topButton = getButton("singleplayer");
+//        if (topButton != null) { topButtonY = topButton.getY(); }
+//        if (topButtonY == -1) { topButtonY = this.height / 4 + 24; }
+//        int y = topButtonY - 24 * ;
 
-        //int y = this.height / 4 + 24; // adjust vertical position
+        int y = this.height / 4 + (24 * config.buttonYOffset); // adjust vertical position
 
         // Server info
         final MinecraftClient client = MinecraftClient.getInstance();
 
         String packName = "";
-        if (!Objects.equals(ModConfig.modpackName, ""))
+        if (!Objects.equals(config.modpackName, ""))
         {
-            packName = ModConfig.modpackName + " ";
+            packName = config.modpackName + " ";
         }
 
         final String serverName = "Velox " + packName + "Server";
@@ -88,15 +92,17 @@ public abstract class TitleScreenMixin extends Screen {
 
                 if (isOnline) {
                     String playersText = data.playerCountLabel != null ? data.playerCountLabel.getString() : "?/?";
+                    String pingText = data.ping < 0 ? "??ms" : data.ping + "ms";
 
                     serverButton.setMessage(Text.literal(defaultMessage));
-                    serverButton.setTooltip(Tooltip.of(Text.literal("[Status - ")
-                                                        .append(Text.literal("Online").formatted(Formatting.GREEN))
-                                                        .append(Text.literal(" | " + playersText + "]"))));
+
+                    if (config.showTooltip)
+                        serverButton.setTooltip(Tooltip.of(setTooltipText(true, pingText, playersText)));
                 } else
                 {
                     serverButton.setMessage(Text.literal(serverName  + " - ").append(Text.literal("Offline").formatted(Formatting.RED)));
-                    serverButton.setTooltip(Tooltip.of(Text.literal("[Status - ").append(Text.literal("Offline").formatted(Formatting.RED)).append(Text.literal("]"))));
+                    if (config.showTooltip)
+                        serverButton.setTooltip(Tooltip.of(setTooltipText(false, "", "")));
                 }
             });
         } catch (Exception e) {
@@ -118,6 +124,9 @@ public abstract class TitleScreenMixin extends Screen {
     //@Inject(method = "init", at = @At("TAIL"))
     @Unique
     private void removeRealmsButton() {
+        if (!config.hideRealmsButton)
+            return;
+
         for (Element element : this.children()) {
             if (element instanceof ButtonWidget button) {
 
@@ -138,18 +147,23 @@ public abstract class TitleScreenMixin extends Screen {
     }
 
     @Unique
-    private ButtonWidget getButton(String key)
-    {
-        for (Element element : this.children()) {
-            if (element instanceof ButtonWidget button) {
-                if (button.getMessage().getString().toLowerCase(Locale.ROOT).equals(key)) {
-                    System.out.println("Found button " + key);
-                    return button;
-                }
-            }
-        }
-        System.out.println("Didn't find button " + key);
-        return null;
+    private Text setTooltipText(boolean isOnline, String pingText, String playersText) {
+
+        String tooltipString = "[";
+        String dividerString = " | ";
+        String statusString = config.showOnlineStatus ? "Status - " : "";
+        String onlineString = config.showOnlineStatus ? (isOnline ? "Online" : "Offline") : "";
+
+        String pingString = config.showPing ? (config.showOnlineStatus && isOnline ? dividerString + pingText : pingText) : "";
+        String playersString = config.showPlayers ? (config.showOnlineStatus && isOnline || config.showPing && isOnline ? dividerString + playersText : playersText) : "";
+        String endString = "]";
+
+        MutableText tooltipText = Text.literal(tooltipString).append(Text.literal(statusString));
+        MutableText onlineText = Text.literal(onlineString).formatted(isOnline ? Formatting.GREEN : Formatting.RED);
+        MutableText remainingText = Text.literal(pingString).append(playersString).append(endString);
+
+        return tooltipText.append(onlineText).append(remainingText);
+
     }
 }
 
