@@ -2,13 +2,6 @@ package velox.server_connect.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
-import me.shedaniel.clothconfig2.api.ConfigBuilder;
-import net.minecraft.text.Text;
 import velox.server_connect.VeloxServerConnect;
 
 import java.io.IOException;

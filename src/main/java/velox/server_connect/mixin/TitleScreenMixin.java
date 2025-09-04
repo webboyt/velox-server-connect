@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import velox.server_connect.config.ModConfig;
 
 import java.awt.*;
-import java.util.Locale;
 import java.util.Objects;
 
 @Mixin(TitleScreen.class)
@@ -50,12 +49,6 @@ public abstract class TitleScreenMixin extends Screen {
         int width = 200;
         int height = 20;
         int x = (this.width - width) / 2;
-
-//        int topButtonY = -1;
-//        ButtonWidget topButton = getButton("singleplayer");
-//        if (topButton != null) { topButtonY = topButton.getY(); }
-//        if (topButtonY == -1) { topButtonY = this.height / 4 + 24; }
-//        int y = topButtonY - 24 * ;
 
         int y = this.height / 4 + (24 * config.buttonYOffset); // adjust vertical position
 
@@ -121,7 +114,6 @@ public abstract class TitleScreenMixin extends Screen {
         this.pinger.cancel();
     }
 
-    //@Inject(method = "init", at = @At("TAIL"))
     @Unique
     private void removeRealmsButton() {
         if (!config.hideRealmsButton)
