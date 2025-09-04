@@ -8,6 +8,7 @@
 
     "field.velox-server-connect.server_name": "Server Name",
     "description.velox-server-connect.server_name": "The name of the server\n\n$m - Uses the Modpack Name value",
+    "tooltip.velox-server-connect.server_name": "$m - Modpack name",
 
     "field.velox-server-connect.server_ip": "Server IP Address",
     "description.velox-server-connect.server_ip": "The IP address of the server you want to connect to",
@@ -17,12 +18,14 @@
 
     "field.velox-server-connect.button_text": "Button Text",
     "description.velox-server-connect.button_text": "The text displayed on the title screen button\n\n$m - Uses the Modpack Name value\n$s - Uses the Server Name value",
+    "tooltip.velox-server-connect.button_text": "$m - Modpack name\n$s - Server name",
 
     "field.velox-server-connect.modpack_name": "Modpack Name",
     "description.velox-server-connect.modpack_name": "The name of the modpack. Can be used in the Server Name or Button Text with the $m marker",
 
     "field.velox-server-connect.y_offset": "Y Offset",
     "description.velox-server-connect.y_offset": "The Y offset of the button on the title screen. Can be used to position the button differently depending on how many buttons are on the main menu:\n\n0 - Singleplayer, Multiplayer, Realms, and Mods\n1 - Singleplayer, Multiplayer, and Realms OR Mods\n2 - Singleplayer and Multiplayer only",
+    "tooltip.velox-server-connect.y_offset": "0 - 4 buttons on title\n1 - 3 buttons on title\n2 - 2 buttons on title",
 
     "field.velox-server-connect.show_tooltip": "Show Tooltip",
     "description.velox-server-connect.show_tooltip": "Toggles the connect button tooltip",

@@ -24,6 +24,7 @@ public class ModConfigScreen {
         serverInfo.addEntry(entryBuilder.startTextField(Text.translatable("field.velox-server-connect.server_name"), config.serverName)
                 .setDefaultValue("Velox $m Server")
                 //.setTooltip(Text.translatable("description.velox-server-connect.server_name"))
+                .setTooltip(Text.translatable("tooltip.velox-server-connect.server_name"))
                 .setSaveConsumer(newValue -> config.serverName = newValue)
                 .build());
 
@@ -48,6 +49,7 @@ public class ModConfigScreen {
         mainButton.addEntry(entryBuilder.startTextField(Text.translatable("field.velox-server-connect.button_text"), config.buttonText)
                 .setDefaultValue("Connect to $s")
                 //.setTooltip(Text.translatable("description.velox-server-connect.button_text"))
+                .setTooltip(Text.translatable("tooltip.velox-server-connect.button_text"))
                 .setSaveConsumer(newValue -> config.buttonText = newValue)
                 .build());
 
